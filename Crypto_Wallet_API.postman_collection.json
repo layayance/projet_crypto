@@ -1,0 +1,278 @@
+{
+	"info": {
+		"name": "Crypto Wallet API",
+		"description": "Collection complète des routes API pour Crypto Wallet",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000/api",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Authentification",
+			"item": [
+				{
+					"name": "Inscription",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"test123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/register",
+							"host": ["{{base_url}}"],
+							"path": ["register"]
+						}
+					}
+				},
+				{
+					"name": "Connexion",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set(\"token\", jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"test123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/login",
+							"host": ["{{base_url}}"],
+							"path": ["login"]
+						}
+					}
+				},
+				{
+					"name": "Informations utilisateur",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/me",
+							"host": ["{{base_url}}"],
+							"path": ["me"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Portefeuille",
+			"item": [
+				{
+					"name": "Liste des actifs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/portfolio",
+							"host": ["{{base_url}}"],
+							"path": ["portfolio"]
+						}
+					}
+				},
+				{
+					"name": "Détails d'un actif",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/portfolio/1",
+							"host": ["{{base_url}}"],
+							"path": ["portfolio", "1"]
+						}
+					}
+				},
+				{
+					"name": "Ajouter un actif",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"symbol\": \"BTC\",\n  \"name\": \"Bitcoin\",\n  \"quantity\": \"0.5\",\n  \"purchasePrice\": \"45000.00\",\n  \"purchaseDate\": \"2024-01-15 10:30:00\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/portfolio",
+							"host": ["{{base_url}}"],
+							"path": ["portfolio"]
+						}
+					}
+				},
+				{
+					"name": "Modifier un actif",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"quantity\": \"0.75\",\n  \"purchasePrice\": \"46000.00\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/portfolio/1",
+							"host": ["{{base_url}}"],
+							"path": ["portfolio", "1"]
+						}
+					}
+				},
+				{
+					"name": "Supprimer un actif",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/portfolio/1",
+							"host": ["{{base_url}}"],
+							"path": ["portfolio", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Statistiques",
+			"item": [
+				{
+					"name": "Valeur totale",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/stats/portfolio/value",
+							"host": ["{{base_url}}"],
+							"path": ["stats", "portfolio", "value"]
+						}
+					}
+				},
+				{
+					"name": "Résumé détaillé",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/stats/portfolio/summary",
+							"host": ["{{base_url}}"],
+							"path": ["stats", "portfolio", "summary"]
+						}
+					}
+				},
+				{
+					"name": "Historique",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/stats/portfolio/history",
+							"host": ["{{base_url}}"],
+							"path": ["stats", "portfolio", "history"]
+						}
+					}
+				},
+				{
+					"name": "Distribution",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/stats/portfolio/distribution",
+							"host": ["{{base_url}}"],
+							"path": ["stats", "portfolio", "distribution"]
+						}
+					}
+				}
+			]
+		}
+	]
+}

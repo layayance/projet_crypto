@@ -1,9 +1,7 @@
 
 services:
 ###> doctrine/doctrine-bundle ###
-  database:
-    ports:
-      - "5432"
+  # Les ports sont maintenant définis dans compose.yaml
 ###< doctrine/doctrine-bundle ###
 
 ###> symfony/mailer ###

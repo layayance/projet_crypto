@@ -1,0 +1,144 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Crypto Wallet API{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { 
+        margin: 1em auto; 
+        max-width: 1200px; 
+        width: 95%; 
+        font: 18px/1.5 sans-serif; 
+    }
+    .example-wrapper code { 
+        background: #F5F5F5; 
+        padding: 2px 6px; 
+        border-radius: 3px;
+    }
+    .api-endpoints {
+        margin-top: 2em;
+        padding: 1em;
+        background: #f9f9f9;
+        border-radius: 5px;
+    }
+    .endpoint {
+        margin: 0.5em 0;
+        padding: 1em;
+        background: white;
+        border-left: 4px solid #007bff;
+        border-radius: 3px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .endpoint-info {
+        flex: 1;
+    }
+    .endpoint-method {
+        display: inline-block;
+        padding: 0.2em 0.6em;
+        border-radius: 3px;
+        font-weight: bold;
+        font-size: 0.9em;
+        margin-right: 0.5em;
+    }
+    .method-get { background: #28a745; color: white; }
+    .method-post { background: #007bff; color: white; }
+    .method-put { background: #ffc107; color: black; }
+    .method-patch { background: #ffc107; color: black; }
+    .method-delete { background: #dc3545; color: white; }
+    .test-section {
+        margin-top: 3em;
+        padding: 1.5em;
+        background: #e7f3ff;
+        border-radius: 5px;
+        border-left: 4px solid #007bff;
+    }
+    .test-button {
+        display: inline-block;
+        padding: 0.5em 1em;
+        background: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 3px;
+        margin: 0.5em 0.5em 0.5em 0;
+    }
+    .test-button:hover {
+        background: #0056b3;
+    }
+    .route-path {
+        font-family: monospace;
+        color: #007bff;
+        font-weight: bold;
+    }
+</style>
+
+<div class="example-wrapper">
+    <h1>🚀 Crypto Wallet API</h1>
+    
+    <p>Bienvenue sur l'API Crypto Wallet ! Cette page liste toutes les routes disponibles.</p>
+    
+    <div class="api-endpoints">
+        <h2>📡 Routes API disponibles ({{ api_routes|length }}) :</h2>
+        
+        {% for route in api_routes %}
+        <div class="endpoint">
+            <div class="endpoint-info">
+                {% for method in route.methods %}
+                    <span class="endpoint-method method-{{ method|lower }}">{{ method }}</span>
+                {% endfor %}
+                <span class="route-path">{{ route.path }}</span>
+                <p style="margin: 0.5em 0 0 0; color: #666;">
+                    <small>{{ route.name }}</small>
+                </p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div class="test-section">
+        <h2>🧪 Comment tester les routes ?</h2>
+        
+        <h3>1. Dans le navigateur (routes GET uniquement)</h3>
+        <p>Vous pouvez tester les routes GET directement dans le navigateur :</p>
+        <ul>
+            <li><a href="/api/routes" target="_blank">GET /api/routes</a> - Liste des routes (JSON)</li>
+        </ul>
+        <p><strong>Note :</strong> Les routes POST/PUT/DELETE nécessitent des outils spéciaux (voir ci-dessous).</p>
+        
+        <h3>2. Avec curl (Terminal)</h3>
+        <p>Ouvrez un terminal et utilisez curl :</p>
+        <pre style="background: #2d2d2d; color: #f8f8f2; padding: 1em; border-radius: 5px; overflow-x: auto;">
+# Test d'inscription
+curl -X POST http://localhost:8000/api/register \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"test123"}'
+
+# Test de connexion
+curl -X POST http://localhost:8000/api/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"test123"}'
+
+# Test avec token (remplacez YOUR_TOKEN)
+curl -X GET http://localhost:8000/api/portfolio \
+  -H "Authorization: Bearer YOUR_TOKEN"
+        </pre>
+        
+        <h3>3. Avec le script de test automatique</h3>
+        <p>Exécutez le script de test :</p>
+        <pre style="background: #2d2d2d; color: #f8f8f2; padding: 1em; border-radius: 5px;">
+./test-api.sh
+        </pre>
+        
+        <h3>4. Avec Postman ou Insomnia</h3>
+        <p>Importez les routes dans Postman ou Insomnia pour une interface graphique.</p>
+        
+        <a href="/api/routes" class="test-button" target="_blank">📋 Voir les routes en JSON</a>
+    </div>
+    
+    <p style="margin-top: 2em; color: #666;">
+        <small>Symfony {{ constant('Symfony\\Component\\HttpKernel\\Kernel::VERSION') }} | 
+        Base URL: <code>http://localhost:8000</code></small>
+    </p>
+</div>
+{% endblock %}
